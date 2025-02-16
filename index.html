@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emparejador de Pádel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="controls">
+            <label for="num-pistas">Número de pistas de pádel:</label>
+            <input type="number" id="num-pistas" min="1" value="1">
+            <button id="generar">Generar Emparejamientos</button>
+        </div>
+
+        <div class="toggle-section" id="toggle-selection">
+            <h2>📋 Seleccionar Jugadores</h2>
+        </div>
+
+        <div class="selection-area" id="selection-area">
+            <div class="person-list">
+                <h2>Selecciona Jugadores</h2>
+                <div id="personas" class="grid-container"></div>
+            </div>
+
+            <div class="selected-list">
+                <h2>Jugadores Seleccionados (<span id="contador">0</span>)</h2>
+                <div id="seleccionados" class="grid-container"></div>
+            </div>
+        </div>
+
+        <div class="results">
+            <h2>📝 Pistas y Parejas Generadas</h2>
+            <div id="pistas"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
