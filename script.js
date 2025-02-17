@@ -50,17 +50,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function generarEmparejamientos() {
         pistasContainer.innerHTML = "";
+        let numPistas = parseInt(inputNumPistas.value);
+        let totalJugadoresNecesarios = numPistas * 4; // 4 jugadores por pista (2 parejas)
+
+        let strPista = "pista"
+        if (numPistas>1) strPista+="s";
+
+        // 🚨 Validación: Si no hay suficientes jugadores, mostrar alerta y salir 🚨
+        if (seleccionados.length < totalJugadoresNecesarios) {
+            alert(`⚠️ Debes seleccionar al menos ${totalJugadoresNecesarios} jugadores para jugar en ${numPistas} ${strPista}.`);
+            return;
+        }
+
+        // Si el número de jugadores es suficiente, ocultamos la sección de selección
         selectionArea.classList.add("hidden");
 
-        let numPistas = parseInt(inputNumPistas.value);
-        let totalParejas = numPistas * 2;
+        // Mezclar aleatoriamente a los jugadores seleccionados
         let seleccionadosShuffled = [...seleccionados].sort(() => Math.random() - 0.5);
         let parejas = [];
 
-        for (let i = 0; i < totalParejas; i++) {
+        // Generar parejas
+        for (let i = 0; i < totalJugadoresNecesarios / 2; i++) {
             parejas.push([seleccionadosShuffled.pop(), seleccionadosShuffled.pop()]);
         }
 
+        // Asignar parejas a las pistas
         for (let i = 0; i < numPistas; i++) {
             let pistaDiv = document.createElement("div");
             pistaDiv.classList.add("pista");

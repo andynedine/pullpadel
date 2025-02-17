@@ -16,20 +16,27 @@ body {
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
-.controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+h1 {
+    color: #fbc02d;
 }
 
+/* ✅ Controles en la versión web alineados a la izquierda */
+.controls {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+/* ✅ Tamaño más pequeño del campo de selección */
 input {
-    padding: 10px;
+    padding: 5px;
     border-radius: 5px;
     border: none;
     text-align: center;
-    font-size: 16px;
-    width: 50px;
+    font-size: 14px;
+    width: 40px;
 }
 
 button {
@@ -115,4 +122,83 @@ button:hover {
 
 .pista h3 {
     color: #fbc02d;
+}
+
+/* ✅ Optimización para móviles */
+@media (max-width: 768px) {
+    .selection-area {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .person-list, .selected-list {
+        width: 90%;
+    }
+
+    .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Cajas más pequeñas */
+    }
+
+    .grid-container div {
+        font-size: 12px; /* Texto más pequeño */
+        padding: 8px;
+    }
+
+    /* ✅ Reducir tamaño del H2 en móviles */
+    h2 {
+        font-size: 18px;
+    }
+
+    /* ✅ Reducir tamaño del input en móviles */
+    input {
+        font-size: 12px;
+        width: 35px;
+    }
+
+    button {
+        width: auto;
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    /* ✅ En móviles, los controles estarán en la misma línea y centrados */
+    .controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        flex-wrap: nowrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Aún más pequeñas en pantallas chicas */
+    }
+
+    .grid-container div {
+        font-size: 10px;
+        padding: 6px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .controls {
+        flex-direction: row;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    /* ✅ Tamaño de títulos aún más pequeño en pantallas chicas */
+    h2 {
+        font-size: 16px;
+    }
+
+    button {
+        width: auto;
+        font-size: 12px;
+        padding: 6px;
+    }
 }
