@@ -1,3 +1,4 @@
+/* ======= CONFIGURACIÓN GENERAL ======= */
 body {
     font-family: 'Poppins', sans-serif;
     background: #282c34;
@@ -20,16 +21,26 @@ h1 {
     color: #fbc02d;
 }
 
-/* ✅ Controles en la versión web alineados a la izquierda */
+/* ======= SECCIÓN DE SELECCIÓN DE PISTAS ======= */
 .controls {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-start; /* Alineado a la izquierda en web */
     align-items: center;
     margin-bottom: 20px;
-    gap: 10px;
+    gap: 15px;
+    position: relative;
+    padding-right: 60px; /* Espacio para la imagen en web */
 }
 
-/* ✅ Tamaño más pequeño del campo de selección */
+/* ✅ Imagen alineada a la derecha en web */
+.padel-image {
+    width: 50px;
+    height: auto;
+    position: absolute;
+    right: 0;
+}
+
+/* ✅ Ajuste del input para pistas */
 input {
     padding: 5px;
     border-radius: 5px;
@@ -39,21 +50,25 @@ input {
     width: 40px;
 }
 
+/* ✅ Botón de emparejar */
 button {
-    background: #fbc02d;
+    background: #3294fa;
     color: #333;
     border: none;
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+    font-weight: bold;
     transition: 0.3s;
 }
 
 button:hover {
-    background: #ffeb3b;
+    background: #efef34;
+    color: #333;
 }
 
+/* ======= SECCIÓN DE SELECCIÓN DE JUGADORES ======= */
 .toggle-section {
     background: #444;
     padding: 10px;
@@ -69,6 +84,7 @@ button:hover {
     transition: max-height 0.5s ease-out;
 }
 
+/* ✅ Ocultar resultados y selección cuando sea necesario */
 .hidden {
     max-height: 0;
     overflow: hidden;
@@ -76,6 +92,7 @@ button:hover {
     transition: opacity 0.5s ease-out, max-height 0.5s ease-out;
 }
 
+/* ✅ Estilos de la lista de jugadores */
 .person-list, .selected-list {
     width: 45%;
     background: #333;
@@ -84,6 +101,7 @@ button:hover {
     min-height: 200px;
 }
 
+/* ✅ Distribución en columnas */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -92,8 +110,8 @@ button:hover {
 }
 
 .grid-container div {
-    background: #fbc02d;
-    color: #333;
+    background: #3294fa;
+    color: #000;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
@@ -105,9 +123,10 @@ button:hover {
 }
 
 .grid-container div:hover {
-    background: #ffeb3b;
+    background: #efef34;
 }
 
+/* ======= SECCIÓN DE RESULTADOS ======= */
 .results {
     margin-top: 20px;
 }
@@ -121,10 +140,10 @@ button:hover {
 }
 
 .pista h3 {
-    color: #fbc02d;
+    color: #3294fa;
 }
 
-/* ✅ Optimización para móviles */
+/* ======= OPTIMIZACIÓN PARA MÓVILES ======= */
 @media (max-width: 768px) {
     .selection-area {
         flex-direction: column;
@@ -140,16 +159,16 @@ button:hover {
     }
 
     .grid-container div {
-        font-size: 12px; /* Texto más pequeño */
+        font-size: 12px;
         padding: 8px;
     }
 
-    /* ✅ Reducir tamaño del H2 en móviles */
+    /* ✅ Reducción de tamaño del H2 */
     h2 {
         font-size: 18px;
     }
 
-    /* ✅ Reducir tamaño del input en móviles */
+    /* ✅ Reducción del input en móviles */
     input {
         font-size: 12px;
         width: 35px;
@@ -161,23 +180,28 @@ button:hover {
         padding: 8px;
     }
 
-    /* ✅ En móviles, los controles estarán en la misma línea y centrados */
+    /* ✅ Controles centrados en móviles */
     .controls {
-        display: flex;
         justify-content: center;
-        align-items: center;
-        gap: 5px;
         flex-wrap: nowrap;
+        position: relative;
+    }
+
+    /* ✅ Imagen alineada a la izquierda en móviles */
+    .padel-image {
+        position: static;
+        margin-right: auto;
+        width: 40px;
     }
 }
 
 @media (max-width: 480px) {
     .grid-container {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Aún más pequeñas en pantallas chicas */
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Cajas más pequeñas */
     }
 
     .grid-container div {
-        font-size: 10px;
+        font-size: 11px;
         padding: 6px;
     }
 
@@ -188,10 +212,9 @@ button:hover {
     .controls {
         flex-direction: row;
         justify-content: center;
-        gap: 5px;
     }
 
-    /* ✅ Tamaño de títulos aún más pequeño en pantallas chicas */
+    /* ✅ Reducción de títulos en móviles */
     h2 {
         font-size: 16px;
     }
@@ -200,5 +223,10 @@ button:hover {
         width: auto;
         font-size: 12px;
         padding: 6px;
+    }
+
+    /* ✅ Imagen en la misma línea en móviles */
+    .padel-image {
+        width: 35px;
     }
 }

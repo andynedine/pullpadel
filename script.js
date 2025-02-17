@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const personasContainer = document.getElementById("personas");
     const seleccionadosContainer = document.getElementById("seleccionados");
     const pistasContainer = document.getElementById("pistas");
+    const resultsContainer = document.getElementById("results");
     const inputNumPistas = document.getElementById("num-pistas");
     const btnGenerar = document.getElementById("generar");
     const contador = document.getElementById("contador");
@@ -51,30 +52,26 @@ document.addEventListener("DOMContentLoaded", () => {
     function generarEmparejamientos() {
         pistasContainer.innerHTML = "";
         let numPistas = parseInt(inputNumPistas.value);
-        let totalJugadoresNecesarios = numPistas * 4; // 4 jugadores por pista (2 parejas)
-
-        let strPista = "pista"
-        if (numPistas>1) strPista+="s";
+        let totalJugadoresNecesarios = numPistas * 4;
 
         // 🚨 Validación: Si no hay suficientes jugadores, mostrar alerta y salir 🚨
         if (seleccionados.length < totalJugadoresNecesarios) {
-            alert(`⚠️ Debes seleccionar al menos ${totalJugadoresNecesarios} jugadores para jugar en ${numPistas} ${strPista}.`);
+            alert(`⚠️ Debes seleccionar al menos ${totalJugadoresNecesarios} jugadores para jugar en ${numPistas} pistas.`);
             return;
         }
 
-        // Si el número de jugadores es suficiente, ocultamos la sección de selección
+        // Ocultar selección y mostrar emparejamientos
         selectionArea.classList.add("hidden");
+        resultsContainer.classList.remove("hidden");
 
-        // Mezclar aleatoriamente a los jugadores seleccionados
+        // Mezclar jugadores aleatoriamente
         let seleccionadosShuffled = [...seleccionados].sort(() => Math.random() - 0.5);
         let parejas = [];
 
-        // Generar parejas
         for (let i = 0; i < totalJugadoresNecesarios / 2; i++) {
             parejas.push([seleccionadosShuffled.pop(), seleccionadosShuffled.pop()]);
         }
 
-        // Asignar parejas a las pistas
         for (let i = 0; i < numPistas; i++) {
             let pistaDiv = document.createElement("div");
             pistaDiv.classList.add("pista");
@@ -85,7 +82,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    renderizarPersonas();
+    // Mostrar las pistas al hacer click en "Emparejar"
     btnGenerar.addEventListener("click", generarEmparejamientos);
-    toggleSelection.addEventListener("click", () => selectionArea.classList.toggle("hidden"));
+
+    // Alternar visibilidad entre Selección de Jugadores y Resultados
+    toggleSelection.addEventListener("click", () => {
+        if (selectionArea.classList.contains("hidden")) {
+            selectionArea.classList.remove("hidden");
+            resultsContainer.classList.add("hidden");
+        } else {
+            selectionArea.classList.add("hidden");
+            resultsContainer.classList.remove("hidden");
+        }
+    });
+
+    renderizarPersonas();
 });
