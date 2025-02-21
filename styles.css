@@ -52,7 +52,7 @@ input {
 
 /* ✅ Botón de emparejar */
 button {
-    background: #3294fa;
+    background: #bcbcbc;
     color: #333;
     border: none;
     padding: 10px;
@@ -110,7 +110,7 @@ button:hover {
 }
 
 .grid-container div {
-    background: #3294fa;
+    background: #bcbcbc;
     color: #000;
     padding: 10px;
     border-radius: 5px;
