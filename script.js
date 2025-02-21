@@ -16,6 +16,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectionArea = document.getElementById("selection-area");
     const toggleSelection = document.getElementById("toggle-selection");
 
+    // ✅ Seleccionar automáticamente todo el valor al hacer clic
+    inputNumPistas.addEventListener("focus", function() {
+        this.select();
+    });
+
+    // ✅ También seleccionar si el usuario toca el campo en dispositivos móviles
+    inputNumPistas.addEventListener("mouseup", function(event) {
+        event.preventDefault(); // Evita que se deseleccione al soltar el clic
+        this.select();
+    });
+
     let seleccionados = [];
 
     function renderizarPersonas() {
