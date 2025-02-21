@@ -153,6 +153,11 @@ button:hover {
     .person-list, .selected-list {
         width: 90%;
     }
+    
+    .selected-list {
+        margin-top: 10px;
+        min-height: 50px;
+    }
 
     .grid-container {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Cajas más pequeñas */
@@ -197,11 +202,11 @@ button:hover {
 
 @media (max-width: 480px) {
     .grid-container {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Cajas más pequeñas */
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Cajas más pequeñas */
     }
 
     .grid-container div {
-        font-size: 11px;
+        font-size: 12px;
         padding: 6px;
     }
 
