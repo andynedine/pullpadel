@@ -8,13 +8,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const personasContainer = document.getElementById("personas");
     const seleccionadosContainer = document.getElementById("seleccionados");
+    const editPersonasContainer = document.getElementById("edit-personas");
     const pistasContainer = document.getElementById("pistas");
     const resultsContainer = document.getElementById("results");
     const inputNumPistas = document.getElementById("num-pistas");
     const btnGenerar = document.getElementById("generar");
+    const btnEditar = document.getElementById("editar-jugadores");
+    const btnGuardar = document.getElementById("guardar-jugadores");
     const contador = document.getElementById("contador");
     const selectionArea = document.getElementById("selection-area");
+    const editArea = document.getElementById("edit-area");
     const toggleSelection = document.getElementById("toggle-selection");
+
 
     // ✅ Seleccionar automáticamente todo el valor al hacer clic
     inputNumPistas.addEventListener("focus", function() {
@@ -26,12 +31,25 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault(); // Evita que se deseleccione al soltar el clic
         this.select();
     });
-
+    
+    toggleSelection.addEventListener("click", () => {
+        if (selectionArea.classList.contains("hidden")) {
+            // Mostrar la selección de jugadores y ocultar los resultados
+            selectionArea.classList.remove("hidden");
+            resultsContainer.classList.add("hidden");
+        } else {
+            // Ocultar la selección de jugadores y mostrar los resultados
+            selectionArea.classList.add("hidden");
+            resultsContainer.classList.remove("hidden");
+        }
+    });
+    
     let seleccionados = [];
+    let jugadoresEditables = [...listaPersonas];
 
     function renderizarPersonas() {
         personasContainer.innerHTML = "";
-        listaPersonas.forEach(persona => {
+        jugadoresEditables.forEach(persona => {
             if (!seleccionados.includes(persona)) {
                 let div = document.createElement("div");
                 div.textContent = persona;
@@ -57,6 +75,31 @@ document.addEventListener("DOMContentLoaded", () => {
         seleccionados = seleccionados.filter(p => p !== persona);
         div.remove();
         contador.textContent = seleccionados.length;
+        renderizarPersonas();
+    }
+
+    function renderizarEdicion() {
+        editPersonasContainer.innerHTML = "";
+        jugadoresEditables.forEach((persona, index) => {
+            let input = document.createElement("input");
+            input.type = "text";
+            input.value = persona;
+            input.dataset.index = index;
+            editPersonasContainer.appendChild(input);
+        });
+    }
+
+    function guardarEdicion() {
+        const inputs = editPersonasContainer.querySelectorAll("input");
+        jugadoresEditables = Array.from(inputs).map(input => input.value);
+
+        // Volver a mostrar la selección de jugadores con los nombres editados
+        editArea.classList.add("hidden");
+        selectionArea.classList.remove("hidden");
+        btnGuardar.classList.add("hidden");
+        btnEditar.classList.remove("hidden");
+
+        // Renderizar nuevamente los jugadores editados
         renderizarPersonas();
     }
 
@@ -93,19 +136,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Mostrar las pistas al hacer click en "Emparejar"
-    btnGenerar.addEventListener("click", generarEmparejamientos);
-
-    // Alternar visibilidad entre Selección de Jugadores y Resultados
-    toggleSelection.addEventListener("click", () => {
-        if (selectionArea.classList.contains("hidden")) {
-            selectionArea.classList.remove("hidden");
-            resultsContainer.classList.add("hidden");
-        } else {
-            selectionArea.classList.add("hidden");
-            resultsContainer.classList.remove("hidden");
-        }
+    btnEditar.addEventListener("click", () => {
+        selectionArea.classList.add("hidden");
+        editArea.classList.remove("hidden");
+        btnEditar.classList.add("hidden");
+        btnGuardar.classList.remove("hidden");
+        renderizarEdicion();
     });
+
+    btnGuardar.addEventListener("click", guardarEdicion);
+
+    btnGenerar.addEventListener("click", generarEmparejamientos);
 
     renderizarPersonas();
 });

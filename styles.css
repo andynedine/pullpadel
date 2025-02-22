@@ -60,7 +60,6 @@ button {
     border-radius: 5px;
     font-size: 16px;
     font-weight: bold;
-    transition: 0.3s;
 }
 
 button:hover {
@@ -78,18 +77,18 @@ button:hover {
     margin-bottom: 10px;
 }
 
-.selection-area {
-    display: flex;
-    justify-content: space-between;
-    transition: max-height 0.5s ease-out;
-}
 
-/* ✅ Ocultar resultados y selección cuando sea necesario */
+/* ✅ Ocultar elementos cuando no son necesarios */
 .hidden {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    transition: opacity 0.5s ease-out, max-height 0.5s ease-out;
+}
+
+.selection-area {
+    display: flex;
+    justify-content: space-between;
+    transition: max-height 0.5s ease-out;
 }
 
 /* ✅ Estilos de la lista de jugadores */
@@ -124,6 +123,61 @@ button:hover {
 
 .grid-container div:hover {
     background: #efef34;
+}
+
+/* ======= SECCIÓN DE EDICIÓN DE JUGADORES ======= */
+.edit-area {
+    background: #333;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.edit-area h2 {
+    color: #fbc02d;
+}
+
+.edit-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+#guardar-jugadores {
+    background: #fbc02d;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+/* ✅ Ajuste del título */
+.edit-header h2 {
+    margin: 0;
+    flex-grow: 1;
+}
+
+.edit-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.edit-container input {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+    font-size: 14px;
+    background: #fbc02d;
+    color: #333;
+    font-weight: bold;
+    width: 100%;
 }
 
 /* ======= SECCIÓN DE RESULTADOS ======= */
