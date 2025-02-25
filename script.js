@@ -117,6 +117,25 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    editInput.addEventListener("input", (event) => {
+        let valor = editInput.value.trim();
+    
+        // Si el usuario escribe una ",", se procesa automáticamente el nombre
+        if (valor.includes(",")) {
+            let nombres = valor.split(",").map(nombre => nombre.trim()).filter(nombre => nombre !== "");
+    
+            nombres.forEach(nombre => {
+                if (nombre && !jugadoresEditables.includes(nombre)) {
+                    jugadoresEditables.push(nombre);
+                }
+            });
+    
+            editInput.value = ""; // Limpia el campo de entrada después de agregar
+            renderTags();
+        }
+    });
+    
+
     // 📌 Renderizar la lista de jugadores disponibles
     function renderizarPersonas() {
         personasContainer.innerHTML = "";
