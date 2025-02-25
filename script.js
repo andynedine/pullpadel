@@ -66,9 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
         let jugadoresGuardados = getCookie("jugadores");
         if (jugadoresGuardados && jugadoresGuardados.length > 0) {
             jugadoresEditables = jugadoresGuardados;
-            btnEditar.textContent = "✏️&nbsp;Editar";
+            btnEditar.textContent = "Editar";
         } else {
-            btnEditar.textContent = "➕&nbsp;Crear";
+            btnEditar.textContent = "Crear";
         }
         renderTags();
         renderizarPersonas();
