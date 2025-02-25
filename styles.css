@@ -309,7 +309,7 @@ button:hover {
 
     /* ✅ Imagen alineada a la izquierda en móviles */
     .padel-image {
-        position: static;
+        /*position: static;*/
         margin-right: auto;
         width: 40px;
     }
@@ -345,8 +345,9 @@ button:hover {
         padding: 6px;
     }
 
-    /* ✅ Imagen en la misma línea en móviles */
+    /* ✅ Imagen en la misma línea en móviles 
     .padel-image {
         width: 35px;
     }
+    */
 }
