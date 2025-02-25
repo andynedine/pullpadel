@@ -22,11 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
         this.select();
     });
 
-    // 📌 También seleccionar si el usuario toca el campo en dispositivos móviles
-    inputNumPistas.addEventListener("mouseup", function(event) {
-        event.preventDefault(); // Evita que se deseleccione al soltar el clic
-        this.select();
-    });
 
     // 📌 Alternar visibilidad entre Selección de Jugadores y Resultados
     toggleSelection.addEventListener("click", () => {
@@ -247,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
             pistaDiv.classList.add("pista");
             pistaDiv.innerHTML = `<h3>🏟️ Pista ${i + 1}</h3>
                 <p>${parejas[i * 2][0]} 👥 ${parejas[i * 2][1]}</p>
-                <p>${parejas[i * 2 + 1][0]}👥 ${parejas[i * 2 + 1][1]}</p>`;
+                <p>${parejas[i * 2 + 1][0]} 👥 ${parejas[i * 2 + 1][1]}</p>`;
             pistasContainer.appendChild(pistaDiv);
         }
     }
