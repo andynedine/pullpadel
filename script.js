@@ -246,8 +246,8 @@ document.addEventListener("DOMContentLoaded", () => {
             let pistaDiv = document.createElement("div");
             pistaDiv.classList.add("pista");
             pistaDiv.innerHTML = `<h3>🏟️ Pista ${i + 1}</h3>
-                <p>👥 ${parejas[i * 2][0]} & ${parejas[i * 2][1]}</p>
-                <p>👥 ${parejas[i * 2 + 1][0]} & ${parejas[i * 2 + 1][1]}</p>`;
+                <p>${parejas[i * 2][0]} 👥 ${parejas[i * 2][1]}</p>
+                <p>${parejas[i * 2 + 1][0]}👥 ${parejas[i * 2 + 1][1]}</p>`;
             pistasContainer.appendChild(pistaDiv);
         }
     }
