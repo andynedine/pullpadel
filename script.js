@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 📌 Manejo de entrada para crear etiquetas
     editInput.addEventListener("keypress", (event) => {
-        if (event.key === "Enter" || event.key === ",") {
+        if (event.key === "Enter" || event.key === "," || event.keyCode===13) {
             event.preventDefault();
             let nombre = editInput.value.trim();
             if (nombre && !jugadoresEditables.includes(nombre)) {
