@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleSelection = document.getElementById("toggle-selection");
     const inputNumPistas = document.getElementById("num-pistas");
     const btnGenerar = document.getElementById("generar");
+    const editArea = document.getElementById("edit-area");
 
     let jugadoresEditables = [];
     let seleccionados = [];
@@ -185,7 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
         setCookie("jugadores", jugadoresEditables, 180);
         btnGuardar.classList.add("hidden");
         btnEditar.classList.remove("hidden");
-        document.getElementById("edit-area").classList.add("hidden");
+        editArea.classList.remove("edit-area");
+        editArea.classList.add("hidden");
         renderizarPersonas();
         verificarCookies();
     }
@@ -193,7 +195,8 @@ document.addEventListener("DOMContentLoaded", () => {
     btnEditar.addEventListener("click", () => {
         btnEditar.classList.add("hidden");
         btnGuardar.classList.remove("hidden");
-        document.getElementById("edit-area").classList.remove("hidden");
+        editArea.classList.add("edit-area");
+        editArea.classList.remove("hidden");
     });
 
     btnGuardar.addEventListener("click", guardarEdicion);
