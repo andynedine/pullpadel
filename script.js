@@ -43,24 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
         let fecha = new Date();
         fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
         let expira = `;expires=${fecha.toUTCString()}`;
-        console.log(nombre, valor, dias);
         //document.cookie = `${nombre}=${encodeURIComponent(JSON.stringify(valor))};${expira};path=/;SameSite=Lax`;
-        cook = nombre + "=" + (encodeURIComponent(JSON.stringify(valor)) || "") + expira + "; path=/;SameSite=Lax";
-        console.log(cook);
-        cook = document.cookie = `${nombre}=${encodeURIComponent(JSON.stringify(valor))}${expira};path=/;SameSite=Lax`;
-        console.log(cook);
         document.cookie = nombre + "=" + (encodeURIComponent(JSON.stringify(valor)) || "") + expira + "; path=/;SameSite=Lax";
         getCookie(nombre);
     }
 
     // 📌 Función para obtener cookies
     function getCookie(nombre) {
-        console.log("LEYENDO: ", nombre);
         let cookies = document.cookie.split("; ");
         for (let i = 0; i < cookies.length; i++) {
             let [clave, valor] = cookies[i].split("=");
             if (clave === nombre) {
-                console.log("***", valor);
                 return JSON.parse(decodeURIComponent(valor));
             }
         }
