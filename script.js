@@ -1,124 +1,225 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const listaPersonas = [
-        "Agu", "Alfredo", "Andy", "Antonio", "Antonio F", "Carlos", "Charly", 
-        "Cuco", "Dani", "David", "Francis", "Hugo", "Javi A", "Javi G", "Javi P", 
-        "Josemilio", "Juanma", "Juanma R", "Lobillo", "Pedro", "Rafael", "Raúl", 
-        "Víctor", "Externo 1", "Externo 2", "Externo 3", "Externo 4"
-    ];
-
+    const editContainer = document.getElementById("edit-tags-container");
+    const editInput = document.getElementById("edit-input");
+    const btnGuardar = document.getElementById("guardar-jugadores");
+    const btnEditar = document.getElementById("editar-jugadores");
     const personasContainer = document.getElementById("personas");
     const seleccionadosContainer = document.getElementById("seleccionados");
-    const editPersonasContainer = document.getElementById("edit-personas");
+    const contadorSeleccionados = document.getElementById("contador");
     const pistasContainer = document.getElementById("pistas");
     const resultsContainer = document.getElementById("results");
+    const selectionArea = document.getElementById("selection-area");
+    const toggleSelection = document.getElementById("toggle-selection");
     const inputNumPistas = document.getElementById("num-pistas");
     const btnGenerar = document.getElementById("generar");
-    const btnEditar = document.getElementById("editar-jugadores");
-    const btnGuardar = document.getElementById("guardar-jugadores");
-    const contador = document.getElementById("contador");
-    const selectionArea = document.getElementById("selection-area");
-    const editArea = document.getElementById("edit-area");
-    const toggleSelection = document.getElementById("toggle-selection");
 
+    let jugadoresEditables = [];
+    let seleccionados = [];
 
-    // ✅ Seleccionar automáticamente todo el valor al hacer clic
+    // 📌 Seleccionar automáticamente todo el valor al hacer clic
     inputNumPistas.addEventListener("focus", function() {
         this.select();
     });
 
-    // ✅ También seleccionar si el usuario toca el campo en dispositivos móviles
+    // 📌 También seleccionar si el usuario toca el campo en dispositivos móviles
     inputNumPistas.addEventListener("mouseup", function(event) {
         event.preventDefault(); // Evita que se deseleccione al soltar el clic
         this.select();
     });
-    
+
+    // 📌 Alternar visibilidad entre Selección de Jugadores y Resultados
     toggleSelection.addEventListener("click", () => {
         if (selectionArea.classList.contains("hidden")) {
-            // Mostrar la selección de jugadores y ocultar los resultados
             selectionArea.classList.remove("hidden");
             resultsContainer.classList.add("hidden");
         } else {
-            // Ocultar la selección de jugadores y mostrar los resultados
             selectionArea.classList.add("hidden");
             resultsContainer.classList.remove("hidden");
         }
     });
-    
-    let seleccionados = [];
-    let jugadoresEditables = [...listaPersonas];
 
+    // 📌 Función para establecer cookies (soporte para localhost)
+    function setCookie(nombre, valor, dias) {
+        let fecha = new Date();
+        fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
+        let expira = `;expires=${fecha.toUTCString()}`;
+        console.log(nombre, valor, dias);
+        //document.cookie = `${nombre}=${encodeURIComponent(JSON.stringify(valor))};${expira};path=/;SameSite=Lax`;
+        cook = nombre + "=" + (encodeURIComponent(JSON.stringify(valor)) || "") + expira + "; path=/;SameSite=Lax";
+        console.log(cook);
+        cook = document.cookie = `${nombre}=${encodeURIComponent(JSON.stringify(valor))}${expira};path=/;SameSite=Lax`;
+        console.log(cook);
+        document.cookie = nombre + "=" + (encodeURIComponent(JSON.stringify(valor)) || "") + expira + "; path=/;SameSite=Lax";
+        getCookie(nombre);
+    }
+
+    // 📌 Función para obtener cookies
+    function getCookie(nombre) {
+        console.log("LEYENDO: ", nombre);
+        let cookies = document.cookie.split("; ");
+        for (let i = 0; i < cookies.length; i++) {
+            let [clave, valor] = cookies[i].split("=");
+            if (clave === nombre) {
+                console.log("***", valor);
+                return JSON.parse(decodeURIComponent(valor));
+            }
+        }
+        return null;
+    }
+
+    // 📌 Verificar si hay jugadores guardados en cookies al cargar
+    function verificarCookies() {
+        let jugadoresGuardados = getCookie("jugadores");
+        if (jugadoresGuardados && jugadoresGuardados.length > 0) {
+            jugadoresEditables = jugadoresGuardados;
+            btnEditar.textContent = "✝︝ Editar";
+        } else {
+            btnEditar.textContent = "➕ Crear";
+        }
+        renderTags();
+        renderizarPersonas();
+    }
+
+    // 📌 Renderizar etiquetas en la edición
+    function renderTags() {
+        editContainer.innerHTML = "";
+        jugadoresEditables.forEach((nombre, index) => {
+            let tag = document.createElement("div");
+            tag.classList.add("tag");
+            tag.textContent = nombre;
+
+            let removeBtn = document.createElement("button");
+            removeBtn.textContent = "✖";
+            removeBtn.classList.add("remove");
+            removeBtn.addEventListener("click", () => eliminarTag(index));
+
+            tag.appendChild(removeBtn);
+            editContainer.appendChild(tag);
+        });
+
+        editContainer.appendChild(editInput);
+        editInput.focus();
+    }
+
+    // 📌 Eliminar un jugador de la edición y la selección
+    function eliminarTag(index) {
+        let eliminado = jugadoresEditables[index];
+        seleccionados = seleccionados.filter(jugador => jugador !== eliminado);
+        actualizarSeleccionados();
+        jugadoresEditables.splice(index, 1);
+        renderTags();
+    }
+
+    // 📌 Manejo de entrada para crear etiquetas
+    editInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter" || event.key === ",") {
+            event.preventDefault();
+            let nombre = editInput.value.trim();
+            if (nombre && !jugadoresEditables.includes(nombre)) {
+                jugadoresEditables.push(nombre);
+                editInput.value = "";
+                renderTags();
+            }
+        }
+    });
+
+    // 📌 Renderizar la lista de jugadores disponibles
     function renderizarPersonas() {
         personasContainer.innerHTML = "";
         jugadoresEditables.forEach(persona => {
-            if (!seleccionados.includes(persona)) {
-                let div = document.createElement("div");
-                div.textContent = persona;
-                div.addEventListener("click", () => seleccionarPersona(persona, div));
-                personasContainer.appendChild(div);
+            let div = document.createElement("div");
+            div.textContent = persona;
+            div.classList.add("player-item");
+
+            if (seleccionados.includes(persona)) {
+                div.classList.add("selected-highlight");
             }
+
+            div.addEventListener("click", () => seleccionarPersona(persona, div));
+            personasContainer.appendChild(div);
         });
     }
 
+    // 📌 Seleccionar un jugador
     function seleccionarPersona(persona, div) {
         if (!seleccionados.includes(persona)) {
             seleccionados.push(persona);
             let seleccionadoItem = document.createElement("div");
             seleccionadoItem.textContent = persona;
+            seleccionadoItem.classList.add("selected-player");
             seleccionadoItem.addEventListener("click", () => deseleccionarPersona(persona, seleccionadoItem));
             seleccionadosContainer.appendChild(seleccionadoItem);
-            contador.textContent = seleccionados.length;
-            renderizarPersonas();
+
+            div.classList.add("selected-highlight");
+            actualizarContador();
         }
     }
 
+    // 📌 Deseleccionar un jugador
     function deseleccionarPersona(persona, div) {
         seleccionados = seleccionados.filter(p => p !== persona);
         div.remove();
-        contador.textContent = seleccionados.length;
-        renderizarPersonas();
-    }
+        actualizarContador();
 
-    function renderizarEdicion() {
-        editPersonasContainer.innerHTML = "";
-        jugadoresEditables.forEach((persona, index) => {
-            let input = document.createElement("input");
-            input.type = "text";
-            input.value = persona;
-            input.dataset.index = index;
-            editPersonasContainer.appendChild(input);
+        let jugadores = personasContainer.querySelectorAll(".player-item");
+        jugadores.forEach(jugador => {
+            if (jugador.textContent === persona) {
+                jugador.classList.remove("selected-highlight");
+            }
         });
     }
 
-    function guardarEdicion() {
-        const inputs = editPersonasContainer.querySelectorAll("input");
-        jugadoresEditables = Array.from(inputs).map(input => input.value);
-
-        // Volver a mostrar la selección de jugadores con los nombres editados
-        editArea.classList.add("hidden");
-        selectionArea.classList.remove("hidden");
-        btnGuardar.classList.add("hidden");
-        btnEditar.classList.remove("hidden");
-
-        // Renderizar nuevamente los jugadores editados
-        renderizarPersonas();
+    // 📌 Actualizar la lista de jugadores seleccionados
+    function actualizarSeleccionados() {
+        seleccionadosContainer.innerHTML = "";
+        seleccionados.forEach(persona => {
+            let seleccionadoItem = document.createElement("div");
+            seleccionadoItem.textContent = persona;
+            seleccionadoItem.classList.add("selected-player");
+            seleccionadoItem.addEventListener("click", () => deseleccionarPersona(persona, seleccionadoItem));
+            seleccionadosContainer.appendChild(seleccionadoItem);
+        });
+        actualizarContador();
     }
 
+    // 📌 Actualizar contador de jugadores seleccionados
+    function actualizarContador() {
+        contadorSeleccionados.textContent = seleccionados.length;
+    }
+
+    // 📌 Guardar edición y actualizar cookies
+    function guardarEdicion() {
+        setCookie("jugadores", jugadoresEditables, 180);
+        btnGuardar.classList.add("hidden");
+        btnEditar.classList.remove("hidden");
+        document.getElementById("edit-area").classList.add("hidden");
+        renderizarPersonas();
+        verificarCookies();
+    }
+
+    btnEditar.addEventListener("click", () => {
+        btnEditar.classList.add("hidden");
+        btnGuardar.classList.remove("hidden");
+        document.getElementById("edit-area").classList.remove("hidden");
+    });
+
+    btnGuardar.addEventListener("click", guardarEdicion);
+
+    // 📌 Función para emparejar jugadores y asignar a pistas
     function generarEmparejamientos() {
         pistasContainer.innerHTML = "";
         let numPistas = parseInt(inputNumPistas.value);
         let totalJugadoresNecesarios = numPistas * 4;
 
-        // 🚨 Validación: Si no hay suficientes jugadores, mostrar alerta y salir 🚨
         if (seleccionados.length < totalJugadoresNecesarios) {
-            alert(`⚠️ Debes seleccionar al menos ${totalJugadoresNecesarios} jugadores para jugar en ${numPistas} pistas.`);
+            alert(`⚠️ Debes seleccionar al menos ${totalJugadoresNecesarios} jugadores.`);
             return;
         }
 
-        // Ocultar selección y mostrar emparejamientos
+        setCookie("jugadores", jugadoresEditables, 180);
         selectionArea.classList.add("hidden");
         resultsContainer.classList.remove("hidden");
 
-        // Mezclar jugadores aleatoriamente
         let seleccionadosShuffled = [...seleccionados].sort(() => Math.random() - 0.5);
         let parejas = [];
 
@@ -136,17 +237,35 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    btnEditar.addEventListener("click", () => {
-        selectionArea.classList.add("hidden");
-        editArea.classList.remove("hidden");
-        btnEditar.classList.add("hidden");
-        btnGuardar.classList.remove("hidden");
-        renderizarEdicion();
-    });
-
-    btnGuardar.addEventListener("click", guardarEdicion);
+    btnGenerar.addEventListener("click", generarEmparejamientos);
+    verificarCookies();
 
     btnGenerar.addEventListener("click", generarEmparejamientos);
-
-    renderizarPersonas();
+    verificarCookies();
 });
+
+
+
+
+/*
+    
+    // 📌 Seleccionar automáticamente todo el valor al hacer clic
+    inputNumPistas.addEventListener("focus", function() {
+        this.select();
+    });
+
+    // 📌 También seleccionar si el usuario toca el campo en dispositivos móviles
+    inputNumPistas.addEventListener("mouseup", function(event) {
+        event.preventDefault(); // Evita que se deseleccione al soltar el clic
+        this.select();
+    });
+    
+
+    // 📌 Inicializar la lista con algunos valores de ejemplo
+    jugadoresEditables = [
+        "Agu", "Alfredo", "Andy", "Antonio", "Antonio F", "Carlos", "Charly", 
+        "Cuco", "Dani", "David", "Francis", "Hugo", "Javi A", "Javi G", "Javi P", 
+        "Josemilio", "Juanma", "Juanma R", "Lobillo", "Pedro", "Rafael", "Raúl", 
+        "Víctor", "Externo 1", "Externo 2", "Externo 3", "Externo 4"
+    ];
+*/

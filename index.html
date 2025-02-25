@@ -19,7 +19,7 @@
             <input type="number" id="num-pistas" min="1" value="1">
             <button id="generar">Emparejar</button>
             
-            <button id="editar-jugadores">✏️ Editar</button>
+            <button id="editar-jugadores">✝︝ Editar</button>
         </div>
         
         <div class="toggle-section" id="toggle-selection">
@@ -29,11 +29,15 @@
         <!-- Sección de Edición de Jugadores -->
         <div class="edit-area hidden" id="edit-area">
             <div class="edit-header">
-                <h2>✏️ Editar Jugadores</h2>
+                <h2>✝︝ Editar Jugadores</h2>
                 <button id="guardar-jugadores" class="hidden">💾 Guardar</button>
             </div>
             
-            <div id="edit-personas" class="grid-container"></div>
+            <h5>(escribe los nombres separados por ",")</h4>
+            
+            <div id="edit-tags-container" class="tags-container">
+                <input type="text" id="edit-input" placeholder="Escribe&nbsp;aquí">
+            </div>
         </div>
 
         <div class="selection-area" id="selection-area">
