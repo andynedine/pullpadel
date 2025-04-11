@@ -260,6 +260,10 @@ button:hover {
     color: #fbc02d;
 }
 
+html {
+    color-scheme: only dark;
+}
+
 /* ======= OPTIMIZACIÓN PARA MÓVILES ======= */
 @media (max-width: 768px) {
     .selection-area {
@@ -313,6 +317,10 @@ button:hover {
         margin-right: auto;
         width: 40px;
     }
+    
+    html {
+        color-scheme: only dark;
+    }
 }
 
 @media (max-width: 480px) {
@@ -343,6 +351,10 @@ button:hover {
         width: auto;
         font-size: 12px;
         padding: 6px;
+    }
+    
+    html {
+        color-scheme: only dark;
     }
 
     /* ✅ Imagen en la misma línea en móviles 
